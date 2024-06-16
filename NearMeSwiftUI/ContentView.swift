@@ -8,20 +8,40 @@
 import SwiftUI
 import MapKit
 
+enum DisplayMode {
+    case list
+    case detail
+}
+
+
 struct ContentView: View {
-    @State private var query: String = "Coffee"
+    @State private var query: String = ""
     @State private var selectedDetents: PresentationDetent = .fraction(0.15)
     @State private var locationManager = LocationManager.shared
     @State private var position: MapCameraPosition = .userLocation(fallback: .automatic)
     @State private var isSearching: Bool = false
     @State private var mapItems: [MKMapItem] = []
     @State private var visibleRegion: MKCoordinateRegion?
+    @State private var selectedMapItem: MKMapItem?
+    @State private var displayMode : DisplayMode = .list
+    @State private var lookaroundScene: MKLookAroundScene?
+    @State private var route: MKRoute?
+    
+    
+    private func requestCalculateDirections() async {
+        route = nil
+        if let selectedMapItem {
+            guard let currentUserLocation = locationManager.manager.location else { return }
+            let startingMapItem = MKMapItem(placemark: MKPlacemark(coordinate: currentUserLocation.coordinate))
+            self.route = await calculateDirections(from: startingMapItem, to: selectedMapItem)
+        }
+    }
     
 
     private func search() async {
         do {
             mapItems = try await performSearch(searchTerm: query, visibleRegion: visibleRegion)
-            print(mapItems[0])
+//            print(mapItems[0])
             isSearching = false
         } catch {
             mapItems = []
@@ -32,9 +52,14 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            Map(position: $position) {
+            Map(position: $position, selection: $selectedMapItem) {
                 ForEach(mapItems, id: \.self) { mapItem in
                     Marker(item: mapItem)
+                }
+                
+                if let route {
+                    MapPolyline(route)
+                        .stroke(Color.red, lineWidth: 5)
                 }
                 
                 UserAnnotation()
@@ -44,25 +69,26 @@ struct ContentView: View {
             })
             .sheet(isPresented: .constant(true), content: {
                 VStack {
-                    TextField("Search", text: $query)
-                        .padding(8)
-                        .background(Color(.systemGray6))
-                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                .stroke(Color(.systemGray5), lineWidth: 1.0)
+                    switch displayMode {
+                    case .list:
+                        searchAndList
+                    case .detail:
+                        SelectedPlaceDetailView(mapItem: $selectedMapItem) { route = nil }
+                            .padding(.horizontal)
+                        if selectedDetents == .medium || selectedDetents == .large {
+                            if let selectedMapItem {
+                                ActionButtonsView(mapItem: selectedMapItem)
+                                    .padding(.horizontal)
+                            }
+                            LookAroundPreview(initialScene: lookaroundScene)
+                                .frame(height: 200)
+                                .clipShape(RoundedRectangle(cornerRadius: 15.0, style: .continuous))
+                                .padding(.horizontal)
                         }
-                        .padding()
-                        .onSubmit { isSearching = true }
-                    
-                    List(mapItems, id: \.self) { mapItem in
-                        PlaceView(mapItem: mapItem)
                     }
-                    
                     Spacer()
-                    
-                    
                 }
+                .padding(.top, 20)
                 //MARK: Stick the Sheet in the bottom of the screen.
                 .presentationDetents([.fraction(0.15), .medium, .large], selection: $selectedDetents)
                 .presentationDragIndicator(.visible)
@@ -70,8 +96,24 @@ struct ContentView: View {
                 .presentationBackgroundInteraction(.enabled(upThrough: .medium))
             })
         }
+        .onChange(of: selectedMapItem) {
+            if selectedMapItem != nil {
+                
+                displayMode = .detail
+            } else {
+                displayMode = .list
+            }
+        }
         .onMapCameraChange { context in
             visibleRegion = context.region
+        }
+        .task(id: selectedMapItem) {
+            lookaroundScene = nil
+            if let selectedMapItem {
+                let request = MKLookAroundSceneRequest(mapItem: selectedMapItem)
+                lookaroundScene = try? await request.scene
+                await requestCalculateDirections()
+            }
         }
         .task(id: isSearching, {
             if isSearching {
@@ -79,6 +121,22 @@ struct ContentView: View {
             }
         })
         
+    }
+    
+    var searchAndList: some View {
+        VStack {
+            SearchBarView(search: $query, isSearching: $isSearching) {
+                withAnimation {
+                    selectedDetents = .fraction(0.15)
+                    query = ""
+                    isSearching = false
+                    mapItems.removeAll()
+                   
+                    
+                }
+            }
+            PlaceListView(mapItems: mapItems, selectedMapItem: $selectedMapItem)
+        }
     }
 }
 

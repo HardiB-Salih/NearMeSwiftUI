@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D5B2C41D2C1EB25C005C090A /* SearchOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C41C2C1EB25C005C090A /* SearchOptionsView.swift */; };
+		D5B2C41F2C1EBA1E005C090A /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C41E2C1EBA1E005C090A /* SearchBarView.swift */; };
+		D5B2C4212C1EC05F005C090A /* PlaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C4202C1EC05F005C090A /* PlaceListView.swift */; };
+		D5B2C4232C1EC725005C090A /* MeasurmentFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C4222C1EC724005C090A /* MeasurmentFormatter.swift */; };
+		D5B2C4252C1ED641005C090A /* SelectedPlaceDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C4242C1ED641005C090A /* SelectedPlaceDetailView.swift */; };
+		D5B2C4272C1EFDA7005C090A /* ActionButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B2C4262C1EFDA6005C090A /* ActionButtonsView.swift */; };
 		D5D351002C1E11AA00839D80 /* NearMeSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D350FF2C1E11AA00839D80 /* NearMeSwiftUIApp.swift */; };
 		D5D351022C1E11AA00839D80 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D351012C1E11AA00839D80 /* ContentView.swift */; };
 		D5D351042C1E11AE00839D80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5D351032C1E11AE00839D80 /* Assets.xcassets */; };
@@ -19,6 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D5B2C41C2C1EB25C005C090A /* SearchOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchOptionsView.swift; sourceTree = "<group>"; };
+		D5B2C41E2C1EBA1E005C090A /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		D5B2C4202C1EC05F005C090A /* PlaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceListView.swift; sourceTree = "<group>"; };
+		D5B2C4222C1EC724005C090A /* MeasurmentFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurmentFormatter.swift; sourceTree = "<group>"; };
+		D5B2C4242C1ED641005C090A /* SelectedPlaceDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedPlaceDetailView.swift; sourceTree = "<group>"; };
+		D5B2C4262C1EFDA6005C090A /* ActionButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButtonsView.swift; sourceTree = "<group>"; };
 		D5D350FC2C1E11AA00839D80 /* NearMeSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearMeSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D350FF2C1E11AA00839D80 /* NearMeSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeSwiftUIApp.swift; sourceTree = "<group>"; };
 		D5D351012C1E11AA00839D80 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,6 +106,7 @@
 			children = (
 				D5D351112C1E22DC00839D80 /* MKCoordinateRegion.swift */,
 				D5D351192C1E399E00839D80 /* MKMapItem.swift */,
+				D5B2C4222C1EC724005C090A /* MeasurmentFormatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -110,6 +123,11 @@
 			isa = PBXGroup;
 			children = (
 				D5D351172C1E38D200839D80 /* PlaceView.swift */,
+				D5B2C41C2C1EB25C005C090A /* SearchOptionsView.swift */,
+				D5B2C41E2C1EBA1E005C090A /* SearchBarView.swift */,
+				D5B2C4202C1EC05F005C090A /* PlaceListView.swift */,
+				D5B2C4242C1ED641005C090A /* SelectedPlaceDetailView.swift */,
+				D5B2C4262C1EFDA6005C090A /* ActionButtonsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -185,12 +203,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5D351182C1E38D200839D80 /* PlaceView.swift in Sources */,
+				D5B2C4232C1EC725005C090A /* MeasurmentFormatter.swift in Sources */,
+				D5B2C41F2C1EBA1E005C090A /* SearchBarView.swift in Sources */,
+				D5B2C4212C1EC05F005C090A /* PlaceListView.swift in Sources */,
+				D5B2C4252C1ED641005C090A /* SelectedPlaceDetailView.swift in Sources */,
 				D5D351022C1E11AA00839D80 /* ContentView.swift in Sources */,
 				D5D351002C1E11AA00839D80 /* NearMeSwiftUIApp.swift in Sources */,
 				D5D3510F2C1E18C400839D80 /* LocationManager.swift in Sources */,
 				D5D3511A2C1E399E00839D80 /* MKMapItem.swift in Sources */,
 				D5D351152C1E23E500839D80 /* MapUtilities.swift in Sources */,
+				D5B2C4272C1EFDA7005C090A /* ActionButtonsView.swift in Sources */,
 				D5D351122C1E22DC00839D80 /* MKCoordinateRegion.swift in Sources */,
+				D5B2C41D2C1EB25C005C090A /* SearchOptionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
